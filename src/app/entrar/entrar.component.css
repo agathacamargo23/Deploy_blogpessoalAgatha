@@ -1,0 +1,9 @@
+#img-bg{
+    background-image: url('https://www.oficinadanet.com.br/imagens/post/15951/engenharia-computacao.jpg');
+    
+     min-height: 580px;
+
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}

@@ -1,0 +1,337 @@
+<div class="container-fluid">
+
+
+  <div class="row bg-primary d-flex align-items-center">
+    
+    <div class="col-md-6">
+      
+
+      <div class="row d-flex justify-content-center">
+        <div class="col-md-6 text black">
+
+       <h1 class="fs-54">Seja bem vindo(a)!!</h1>
+          <h5 class="fs-18">Aprenda o que é Engenharia da Computação</h5>
+          <h6>O profissional formado em Engenharia da Computação é capaz de projetar e construir hardware e software.
+
+            Um Engenheiro(a) da Computação é capaz de projetar e construir hardware e software.
+            Através dele você podera trabalhar com Automação industrial e robótica, Desenvolvimento de softwares e
+            aplicativos.
+            Fabricação de hardware, marketing e vendas e suporte</h6>
+
+            
+        </div>
+
+      
+      </div>
+      <div class="row d-flex justify-content-center mt-3 mb-5">
+        <div class="col-md-6">
+          <button class="btn btn-light mr-2" data-toggle="modal" data-target="#novaPostagem">Nova Postagem</button>
+          <a class="btn btn-outline-light" href="#postagens">Ver Postagens</a>
+        </div>
+      </div>
+    </div>
+
+
+      <div class="col-md-6 d-flex justify-content-center">
+        <img src="https://dicas.vestibulares.com.br/wp-content/uploads/2021/12/post_thumbnail-aa0388a097f78976c2b27c566ae0d641.jpeg" alt="" width="900px" height="550px">
+      </div>
+    </div>
+    </div>
+     
+
+      
+
+
+      <div class="container mb-5 mt-5" id="postagens">
+
+        <nav *ngIf='listaPostagens.length != 0'>
+          <div class="nav nav-tabs d-flex justify-content-center" id="nav-tab" role="tablist">
+      
+            <a class="nav-item nav-link active text-secondary font-weight-bold"
+              id="nav-todasPostagens-tab" data-toggle="tab" href="#todasPostagens" role="tab"
+              aria-controls="nav-todasPostagens" aria-selected="true">Todas as Postagens</a>
+      
+      
+            <a (click)='findByIdUsuario()'
+              class="nav-item nav-link text-secondary font-weight-bold" id="nav-minhasPostagens-tab" data-toggle="tab"
+              href="#minhasPostagens" role="tab" aria-controls="nav-minhasPostagens" aria-selected="false">Minhas
+              Postagens</a>
+      
+            <a class="nav-item nav-link text-secondary font-weight-bold"
+              id="nav-postagemTema-tab" data-toggle="tab" href="#postagemTema" role="tab" aria-controls="nav-postagemTema"
+              aria-selected="false">Postagens por tema</a>
+      
+          </div>
+        
+          
+          
+
+        </nav>
+      
+       <!-- <h2 *ngIf='listaPostagens.length == 0' class="text-center text-secondary mt-5">
+          Não existem postagens ainda...
+        </h2>-->
+      
+        <div class="tab-content mt-5" id="nav-tabContent">
+      
+          <div class="tab-pane fade show active" id="todasPostagens" role="tabpanel" aria-labelledby="nav-todasPostagens-tab">
+      
+            <!-- <div class="row d-flex justify-content-center mt-5 mb-5">
+              <div class="col-md-4">
+                <div class="form-group">
+                   <input type="text" class="form-control" id="titulo" placeholder="Digite um titulo de postagem para pesquisar" [(ngModel)]='tituloPost' (keyup)='findByTituloPostagem()'>
+                </div>
+              </div>
+            </div>-->
+      
+            <div class="card-columns">
+              <div class="card text-center"
+              *ngFor='let item of listaPostagens'>
+                <div class="card-body">
+                  <h5 class="card-title m-0">{{item.titulo}}</h5>
+                  <small class="text-muted"> Tema: {{item.tema.descricao}}</small>
+                  <p class="card-text mt-3">{{item.texto}}</p>
+                  <p class="card-text"><small class="text-muted">
+                      {{item.data | date: 'dd/MM/yyyy'}} às {{item.data | date: 'HH:mm'}}
+                    </small></p>
+      
+                  <p class="card-text"><small class="text-muted">
+                      by: {{item.usuario.nome}}
+                    </small></p>
+                </div>
+              </div>
+            </div>
+      
+          </div>
+      
+          <div class="tab-pane fade" id="minhasPostagens" role="tabpanel" aria-labelledby="nav-minhasPostagens-tab">
+      
+      
+            <div class="card-columns">
+              <div class="card text-center" *ngFor='let item of usuario.postagem '>
+                <div class="card-body">
+                  <h5 class="card-title m-0">{{item.titulo}}</h5>
+                  <small class="text-muted"> Tema: {{item.tema.descricao}}</small>
+                  <p class="card-text mt-3">{{item.texto}}</p>
+                  <p class="card-text"><small class="text-muted">
+                      {{item.data | date: 'dd/MM/yyyy'}} às {{item.data | date: 'HH:mm'}}
+                    </small></p>
+      
+                  <a [routerLink]="['/postagem-edit', item.id]" class="text-info mr-3" href="">Editar</a>
+                  <a [routerLink]="['/postagem-delete', item.id]" class="text-danger" href="">Apagar</a>
+      
+                </div>
+              </div>
+            </div>
+      
+          </div>
+      
+          <div class="tab-pane fade" id="postagemTema" role="tabpanel" aria-labelledby="nav-postagemTema-tab">
+      
+            <div class="row d-flex justify-content-center">
+              <div class="col-md-4">
+      
+                <!--<div class="form-group mb-5">
+                  <input type="text" class="form-control" id="tituloPesquisa" placeholder="Digite um tema para pesquisar" [(ngModel)]='nomeTema' (keyup)='findByNomeTema()'>
+                </div> -->
+      
+              </div>
+            </div>
+      
+            <div class="card-columns" *ngFor='let tema of listaTemas'>
+              <div class="card text-center" *ngFor='let item of tema.postagem'>
+                <div class="card-body">
+                  <h5 class="card-title m-0">{{item.titulo}}</h5>
+                  <p class="card-text mt-3">{{item.texto}}</p>
+                  <p class="card-text"><small class="text-muted">
+                      {{item.data | date: 'dd/MM/yyyy'}} às {{item.data | date: 'HH:mm'}}
+                    </small></p>
+      
+                  <p class="card-text"><small class="text-muted">
+                      by: {{item.usuario.nome}}
+                    </small></p>
+      
+                </div>
+              </div>
+            </div>
+      
+          </div>
+        </div>
+      
+      </div>
+      
+      
+      
+      
+      
+      <!-- Modal -->
+      <div class="modal fade" id="novaPostagem" tabindex="-1" role="dialog" aria-labelledby="TituloModalCentralizado"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="TituloModalCentralizado">Nova Postagem</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+      
+              <div class="form-group">
+                <label for="titulo">Título</label>
+                <input [(ngModel)]='postagem.titulo' type="text" class="form-control" id="titulo"
+                  placeholder="Digite o título">
+              </div>
+      
+              <div class="form-group">
+                <label for="texto">Texto</label>
+                <textarea [(ngModel)]='postagem.texto' class="form-control" name="texto" id="texto" rows="3"></textarea>
+              </div>
+      
+              <div class="form-group">
+                <label for="texto">Escolha um tema ou <a data-dismiss="modal" routerLink='/tema'>cadastre um novo</a>:
+                </label>
+                <select name="tema" id="tema" class="form-control" [(ngModel)]='idTema' (change)='findByIdTema()'>
+                  <option *ngFor='let item of listaTemas' value="{{item.id}}">
+                    {{item.descricao}}
+                  </option>
+                </select>
+              </div>
+      
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+              <button type="button" class="btn btn-success" (click)='publicar()' data-dismiss="modal">Publicar</button>
+            </div>
+          </div>
+          
+        </div>
+      </div>
+
+
+
+
+
+
+
+
+
+<!--<article class="container-fuild">
+
+    <section class="row .bg-info">
+        
+        <div class="col-md-6">
+
+
+            <section class="row d-flex justify-content-center">
+                <div class="col-md-6 text-dark">
+                    <h1>Seja bem vindo!</h1>
+                    <h5>Aprenda o que é Engenharia da Computação</h5>
+                    <h6>O profissional formado em Engenharia da Computação é capaz de projetar e construir hardware e software.
+
+                      Um Engenheiro(a) da Computação é capaz de projetar e construir hardware e software.
+                      Através dele você podera trabalhar com Automação industrial e robótica, Desenvolvimento de softwares e aplicativos.
+                      Fabricação de hardware, marketing e vendas e suporte  </h6>              </div>
+            </section>
+
+
+
+            <section class="row d-flex justify-content-center">
+                <div class="col-md-6">
+                    <a href="#postagens" class="btn btn-outline-primary mr-2">Ver Postagens</a>
+                    <button class="btn btn-primary"  data-toggle="modal" data-target="#novaPostagem">Nova Postagem</button>
+                </div>
+            </section>
+            
+        </div>
+
+
+
+        
+        <div class="col-md-6 d-flex">
+            <img src="https://img.freepik.com/fotos-gratis/matriz-do-computador-com-bonecas_1286-36.jpg?1&t=st=1648951842~exp=1648952442~hmac=0e5cf1d0ed6bd8a1f372f2ffb3bad27d61f1acf0c5e9e3e10e218a25db6afa30&w=740" width="500" height="500" alt="">
+        </div>
+
+    </section>
+
+
+
+</article>
+
+
+
+
+<article class="container-fluid" id="postagens">
+    
+    
+    <ul class="nav nav-tabs d-flex justify-content-center" id="myTab" role="tablist">
+    <li class="nav-item">
+      <a class="nav-link active" id="nav-home-tab" data-toggle="tab" href="#TodasPostagens" role="tab" 
+      aria-controls="nav-TodasPostagens" aria-selected="true">Todas Postagens</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" id="MinhasPostagens-tab" 
+      data-toggle="tab" href="#MinhasPostagens" role="tab" a
+      ria-controls="MinhasPostagens" aria-selected="false">minhas Postagens</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" id="PostagemTema-tab"
+       data-toggle="tab" href="#PostagemTema"
+        role="tab" aria-controls="PostagemTema"
+         aria-selected="false">Postagem por tema</a>
+    </li>
+  </ul>
+
+
+  <div class="tab-content" id="myTabContent">
+    <div class="tab-pane fade" id="TodasPostagens" role="tabpanel" aria-labelledby="TodasPostagens-tab">..agora sao todas.</div>
+    <div class="tab-pane fade show active" id="MinhasPostagens" role="tabpanel" aria-labelledby="nav-MinhasPostagens-tab">...minhas</div>
+
+    <div class="tab-pane fade" id="PostagemTema" role="tabpanel" aria-labelledby="PostagemTema-tab">Tema</div>
+  </div>
+
+
+</article>-->
+
+
+
+
+<!-- Modal -->
+<!--<div class="modal fade" id="novaPostagem" tabindex="-1" role="dialog" aria-labelledby="novaPostagemLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="novaPostagemLabel">Nova Publicação</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        
+        
+        <div class="modal-body">
+          
+            <form class="form-group" action="">
+                <label for="">Titulo</label>
+                <input type="text" class="form-control">
+                
+                <label for="">Texto</label>
+                <textarea name="texto" id="texto" rows="3" class="form-control"></textarea>
+
+                <label for="texto">Escolha um tema ou </label><a routerLink="/tema" data-dismiss="modal" >cadastre um tema</a>
+                <select name="tema" class="form-control mt-2" id="">
+
+                    <option value="">Temas</option>
+
+                </select>
+          
+            </form>
+
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn btn-success">Publicar</button>
+        </div>
+      </div>
+    </div>
+  </div>-->

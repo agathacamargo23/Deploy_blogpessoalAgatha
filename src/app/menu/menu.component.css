@@ -1,0 +1,12 @@
+p{
+    text-align: justify;
+    color: black;
+}
+.fs-16{
+    font-size: 16pt;
+}
+
+a{
+    cursor: pointer;
+    color: #000;
+}
